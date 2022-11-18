@@ -33,7 +33,11 @@ export default {
       api.registerConnectorClass('composer-fields', 'composer-topic-custom-field-container', {
         setupComponent(attrs, component) {
           const model = attrs.model;
-          
+          let can_display = true;
+          if (model.post || model.action == 'reply') {
+            can_display = false
+          }
+
           // If the first post is being edited we need to pass our value from
           // the topic model to the composer model.
           if (!isDefined(model[fieldName]) && model.topic && model.topic[fieldName]) {
@@ -45,6 +49,7 @@ export default {
             fieldValue: model.get(fieldName)
           }
           component.setProperties(Object.assign(props, fieldInputTypes(fieldType)));
+          component.set("can_display", can_display);
         },
         
         actions: {
