@@ -8,6 +8,15 @@
   &.large {
     width: 475px;
   }
+
+  select {
+    padding: 0.5em 0.65em;
+    border: 1px solid;
+    box-sizing:border-box;
+    color: var(--primary);
+    background-color: var(--secondary);
+    font-size: var(--font-0);
+  }
 }
 
 .topic-custom-field-textarea {

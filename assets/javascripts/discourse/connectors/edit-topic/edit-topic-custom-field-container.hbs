@@ -1,23 +1,7 @@
-{{#if isBoolean}}
-  {{input
-    type="checkbox"
-    checked=(readonly fieldValue)
-    click=(action "onChangeField" value="target.checked")
-  }}
-  <span>{{fieldName}}</span>
-{{/if}}
 
-{{#if isInteger}}
-  {{input
-    type="number"
-    value=(readonly fieldValue)
-    class="topic-custom-field-input small"
-    input=(action "onChangeField" value="target.value")
-    placeholder=(i18n 'topic_custom_field.placeholder' field=fieldName)
-  }}
-{{/if}}
 
 {{#if isString}}
+<div class="topic-custom-field-input">
 <select class="topic-custom-field-input small" onchange={{action 'onChangeField' value="target.value"}}>
   <option value="">选择 TiDB 版本</option>
   <option value="v6.2" selected={{eq fieldValue "v6.2"}} >v6.2</option>
@@ -28,13 +12,5 @@
   <option value="v5.0" selected={{eq fieldValue "v5.0"}}>v5.0</option>
   <option value="v4.0" selected={{eq fieldValue "v4.0"}}>v4.0</option>
 </select>
-{{/if}}
-
-{{#if isJson}}
-  {{textarea
-    value=(readonly fieldValue)
-    class="topic-custom-field-textarea"
-    change=(action "onChangeField" value="target.value")
-    placeholder=(i18n 'topic_custom_field.placeholder' field=fieldName)
-  }}
+</div>
 {{/if}}
