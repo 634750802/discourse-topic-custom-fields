@@ -4,13 +4,9 @@
 <div class="topic-custom-field-input">
 <select class="topic-custom-field-input small" onchange={{action 'onChangeField' value="target.value"}}>
   <option value="">选择 TiDB 版本</option>
-  <option value="v6.2" selected={{eq fieldValue "v6.2"}} >v6.2</option>
-  <option value="v6.1" selected={{eq fieldValue "v6.1"}} >v6.1</option>
-  <option value="v6.0" selected={{eq fieldValue "v6.0"}}>v6.0</option>
-  <option value="v5.2" selected={{eq fieldValue "v5.2"}}>v5.2</option>
-  <option value="v5.1" selected={{eq fieldValue "v5.1"}}>v5.1</option>
-  <option value="v5.0" selected={{eq fieldValue "v5.0"}}>v5.0</option>
-  <option value="v4.0" selected={{eq fieldValue "v4.0"}}>v4.0</option>
+  {{#each versions as |v|}}
+      <option value="{{v}}" selected={{eq fieldValue v }} >{{v}}</option>
+  {{/each}}
 </select>
 </div>
 {{/if}}
