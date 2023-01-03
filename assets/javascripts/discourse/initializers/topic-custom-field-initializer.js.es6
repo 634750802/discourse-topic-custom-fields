@@ -39,6 +39,7 @@ export default {
           }
 
           const versions = [
+          "v6.5.0",
           "v6.4.0",
           "v6.3.0",
           "v6.2.0",
@@ -212,6 +213,7 @@ export default {
         setupComponent(attrs, component) {
           const model = attrs.model;
           const versions = [
+            "v6.5.0",
             "v6.4.0",
             "v6.3.0",
             "v6.2.0",
