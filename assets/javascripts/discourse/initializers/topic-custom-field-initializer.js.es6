@@ -45,24 +45,24 @@ export default {
           .then(data => {
             const children = data.data.map(item => item.children).flat();
             versions = children.push('未使用 TiDB');
+            // If the first post is being edited we need to pass our value from
+            // the topic model to the composer model.
+            if (!isDefined(model[fieldName]) && model.topic && model.topic[fieldName]) {
+              model.set(fieldName, model.topic[fieldName]);
+            }
+
+            let props = {
+              fieldName: fieldName,
+              fieldValue: model.get(fieldName)
+            }
+            component.setProperties(Object.assign(props, fieldInputTypes(fieldType)));
+            component.set("can_display", can_display);
+            component.set("versions", versions);
           })
           .catch(error => {
             console.error(error);
           });
-
-          // If the first post is being edited we need to pass our value from
-          // the topic model to the composer model.
-          if (!isDefined(model[fieldName]) && model.topic && model.topic[fieldName]) {
-            model.set(fieldName, model.topic[fieldName]);
-          }
           
-          let props = {
-            fieldName: fieldName,
-            fieldValue: model.get(fieldName)
-          }
-          component.setProperties(Object.assign(props, fieldInputTypes(fieldType)));
-          component.set("can_display", can_display);
-          component.set("versions", versions);
         },
         
         actions: {
