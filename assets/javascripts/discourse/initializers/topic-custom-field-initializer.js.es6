@@ -40,7 +40,7 @@ export default {
           
           let versions = [];
 
-          fetch('https://asktug.com/_/sso/api/tidb-releases')
+          fetch('https://new.asktug.com/_/sso/api/tidb-releases')
           .then(response => response.json())
           .then(data => {
             const children = data.data.map(item => item.children).flat();
@@ -106,7 +106,7 @@ export default {
           const model = attrs.model;
           let versions = [];
 
-          fetch('https://asktug.com/_/sso/api/tidb-releases')
+          fetch('https://new.asktug.com/_/sso/api/tidb-releases')
           .then(response => response.json())
           .then(data => {
             const children = data.data.map(item => item.children).flat();
