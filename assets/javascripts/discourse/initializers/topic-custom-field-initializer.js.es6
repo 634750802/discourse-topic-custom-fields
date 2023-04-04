@@ -1,7 +1,7 @@
 import { withPluginApi } from 'discourse/lib/plugin-api';
 import discourseComputed from "discourse-common/utils/decorators";
 import { alias } from '@ember/object/computed';
-import { isDefined, fieldInputTypes } from '../lib/topic-custom-field';
+import { isDefined, fieldInputTypes, getVersions } from '../lib/topic-custom-field';
 
 export default {
   name: "topic-custom-field-intializer",
@@ -39,30 +39,24 @@ export default {
           }
           
           let versions = [];
-
-          fetch('https://new.asktug.com/_/sso/api/tidb-releases')
-          .then(response => response.json())
-          .then(data => {
-            const children = data.data.map(item => item.children).flat();
-            versions = children.push('未使用 TiDB');
-            // If the first post is being edited we need to pass our value from
-            // the topic model to the composer model.
-            if (!isDefined(model[fieldName]) && model.topic && model.topic[fieldName]) {
-              model.set(fieldName, model.topic[fieldName]);
-            }
-
-            let props = {
-              fieldName: fieldName,
-              fieldValue: model.get(fieldName)
-            }
-            component.setProperties(Object.assign(props, fieldInputTypes(fieldType)));
-            component.set("can_display", can_display);
-            component.set("versions", versions);
-          })
-          .catch(error => {
-            console.error(error);
+          getVersions().then(versions => {
+            versions = versions;
+            console.log(versions); // this will log the actual versions array
           });
           
+          // If the first post is being edited we need to pass our value from
+          // the topic model to the composer model.
+          if (!isDefined(model[fieldName]) && model.topic && model.topic[fieldName]) {
+            model.set(fieldName, model.topic[fieldName]);
+          }
+
+          let props = {
+            fieldName: fieldName,
+            fieldValue: model.get(fieldName)
+          }
+          component.setProperties(Object.assign(props, fieldInputTypes(fieldType)));
+          component.set("can_display", can_display);
+          component.set("versions", versions);
         },
         
         actions: {
