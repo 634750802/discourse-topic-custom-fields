@@ -100,23 +100,16 @@ export default {
         setupComponent(attrs, component) {
           const model = attrs.model;
           let versions = [];
-
-          fetch('https://new.asktug.com/_/sso/api/tidb-releases')
-          .then(response => response.json())
-          .then(data => {
-            const children = data.data.map(item => item.children).flat();
-            versions = children.push('未使用 TiDB');
-          })
-          .catch(error => {
-            console.error(error);
-          });
-          
-          let props = {
-            fieldName: fieldName,
-            fieldValue: model.get(fieldName)
-          }
-          component.setProperties(Object.assign(props, fieldInputTypes(fieldType)));
-          component.set("versions", versions);
+          getVersions().then(versions => {
+            versions = versions;
+            console.log(versions); 
+            let props = {
+              fieldName: fieldName,
+              fieldValue: model.get(fieldName)
+            }
+            component.setProperties(Object.assign(props, fieldInputTypes(fieldType)));
+            component.set("versions", versions);
+          };
         },
         
         actions: {
