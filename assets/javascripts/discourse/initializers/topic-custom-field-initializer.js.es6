@@ -109,7 +109,7 @@ export default {
             }
             component.setProperties(Object.assign(props, fieldInputTypes(fieldType)));
             component.set("versions", versions);
-          };
+          });
         },
         
         actions: {
