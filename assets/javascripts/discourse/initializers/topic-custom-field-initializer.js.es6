@@ -207,6 +207,7 @@ export default {
        *              app/assets/javascripts/discourse/app/helpers/raw-plugin-outlet.js.es6
        */
       api.modifyClass('component:topic-list-item', {
+        pluginId: `topic-custom-field--${fieldName}`,
         customFieldName: fieldName,
         customFieldValue: alias(`topic.${fieldName}`),
 
