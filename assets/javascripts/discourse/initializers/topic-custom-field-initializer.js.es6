@@ -9,9 +9,9 @@ export default {
     const siteSettings = container.lookup('site-settings:main');
     const fieldName = siteSettings.topic_custom_field_name;
     const fieldType = siteSettings.topic_custom_field_type;
-    
+
     withPluginApi('0.11.2', api => {
-      
+
       /*
        * type:        step
        * number:      5
@@ -21,7 +21,7 @@ export default {
        * references:  app/assets/javascripts/discourse/app/templates/composer.hbs,
        *              app/assets/javascripts/discourse/app/components/plugin-outlet.js.es6
        */
-      
+
       /*
        * type:        step
        * number:      5.1
@@ -30,14 +30,14 @@ export default {
        *              composer connector template.
        * references:  app/assets/javascripts/discourse/app/components/plugin-outlet.js.es6
        */
-      api.registerConnectorClass('composer-fields', 'composer-topic-custom-field-container', {
+      api.renderInOutlet('composer-fields/composer-topic-custom-field-container', {
         setupComponent(attrs, component) {
           const model = attrs.model;
           let can_display = true;
           if (model.post || model.action == 'reply') {
             can_display = false
           }
-          
+
           let versions = [];
           getVersions().then(versions => {
             versions = versions;
@@ -54,19 +54,19 @@ export default {
             component.set("can_display", can_display);
             component.set("versions", versions);
           });
-          
+
           // If the first post is being edited we need to pass our value from
           // the topic model to the composer model.
-          
+
         },
-        
+
         actions: {
           onChangeField(fieldValue) {
             this.set(`model.${fieldName}`, fieldValue);
           }
         }
       });
-      
+
       /*
        * type:        step
        * number:      5.2
@@ -76,7 +76,7 @@ export default {
        * location:    plugins/discourse-topic-custom-fields/assets/javascripts/discourse/connectors/composer-fields/composer-topic-custom-field-container.hbs
        * references:  app/assets/javascripts/discourse/app/templates/composer.hbs
        */
-      
+
       /*
        * type:        step
        * number:      6
@@ -87,7 +87,7 @@ export default {
        * references:  app/assets/javascripts/discourse/app/templates/topic.hbs,
        *              app/assets/javascripts/discourse/app/components/plugin-outlet.js.es6
        */
-      
+
       /*
        * type:        step
        * number:      6.1
@@ -96,13 +96,13 @@ export default {
        *              topic connector template.
        * references:  app/assets/javascripts/discourse/app/components/plugin-outlet.js.es6
        */
-      api.registerConnectorClass('edit-topic', 'edit-topic-custom-field-container', {
+      api.renderInOutlet('edit-topic/edit-topic-custom-field-container', {
         setupComponent(attrs, component) {
           const model = attrs.model;
           let versions = [];
           getVersions().then(versions => {
             versions = versions;
-            console.log(versions); 
+            console.log(versions);
             let props = {
               fieldName: fieldName,
               fieldValue: model.get(fieldName)
@@ -111,14 +111,14 @@ export default {
             component.set("versions", versions);
           });
         },
-        
+
         actions: {
           onChangeField(fieldValue) {
             this.set(`buffered.${fieldName}`, fieldValue);
           }
         }
       });
-      
+
       /*
        * type:        step
        * number:      6.2
@@ -128,7 +128,7 @@ export default {
        * location:    plugins/discourse-topic-custom-fields/assets/javascripts/discourse/connectors/edit-topic/edit-topic-custom-field-container.hbs
        * references:  app/assets/javascripts/discourse/app/templates/topic.hbs
        */
-         
+
       /*
        * type:        step
        * number:      7
@@ -142,16 +142,16 @@ export default {
       api.serializeOnCreate(fieldName);
       api.serializeToDraft(fieldName);
       api.serializeToTopic(fieldName, `topic.${fieldName}`);
-      
+
       /*
        * type:        step
        * number:      8
        * title:       Display your field value
-       * description: Display the value of your custom topic field below the 
+       * description: Display the value of your custom topic field below the
        *              title in the topic, and after the title in the topic
        *              list.
        */
-      
+
       /*
        * type:        step
        * number:      8.1
@@ -161,11 +161,11 @@ export default {
        *              connector template.
        * references:  app/assets/javascripts/discourse/app/components/plugin-outlet.js.es6
        */
-      api.registerConnectorClass('topic-title', 'topic-title-custom-field-container', {
+      api.renderInOutlet('topic-title/topic-title-custom-field-container', {
         setupComponent(attrs, component) {
           const model = attrs.model;
           const controller = container.lookup('controller:topic');
-          
+
           component.setProperties({
             fieldName: fieldName,
             fieldValue: model.get(fieldName),
@@ -176,14 +176,14 @@ export default {
             if (this._state === 'destroying') return;
             component.set('showField', !controller.get('editingTopic') && isDefined(model.get(fieldName)));
           });
-          
+
           model.addObserver(fieldName, () => {
             if (this._state === 'destroying') return;
             component.set('fieldValue', model.get(fieldName));
           });
         }
       });
-      
+
       /*
        * type:        step
        * number:      8.2
@@ -194,7 +194,7 @@ export default {
        * location:    plugins/discourse-topic-custom-fields/assets/javascripts/discourse/connectors/topic-title/topic-title-custom-field-container.hbs
        * references:  app/assets/javascripts/discourse/app/templates/topic.hbs
        */
-      
+
       /*
        * type:        step
        * number:      8.3
@@ -213,7 +213,7 @@ export default {
         @discourseComputed('customFieldValue')
         showCustomField: (value) => (isDefined(value))
       });
-      
+
       /*
        * type:        step
        * number:      8.4
